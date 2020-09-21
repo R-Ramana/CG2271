@@ -154,16 +154,16 @@ void InitGPIO(void){
 	PTD->PDDR |= MASK(BLUE_LED);
 }
 
-void ledControl(colour) {
+void ledControl(color_t colour) {
 	offRGB();
 	switch(colour) {
-		case RED_LED:
+		case RED:
 			PTB->PCOR |= MASK(RED_LED);
 			break;
-		case GREEN_LED:
+		case GREEN:
 			PTB->PCOR |= MASK(GREEN_LED);
 			break;
-		case BLUE_LED:
+		case BLUE:
 			PTD->PCOR |= MASK(BLUE_LED);
 			break;
 		default:
@@ -172,7 +172,7 @@ void ledControl(colour) {
 }
 
 int main(void) {
-	uint8_t rx_data = 0x01;
+	uint8_t rx_data = 0x69;
 	
 	SystemCoreClockUpdate();
 	initUART2(BAUD_RATE);
@@ -180,15 +180,14 @@ int main(void) {
 	offRGB();
 	
 	while(1) {
+    //UART2_Transmit_Poll(rx_data);
 		rx_data = UART2_Receive_Poll();
+    
 		if(LED_MASK(rx_data) == LED_RED) {
 			if(BIT0_MASK(rx_data))
-				ledControl(RED_LED);
+				ledControl(RED);
 			else
-				ledControl(0);
+				offRGB();
 		}
-		// RX and TX
-		//UART2_Transmit_Poll(rx_data);
-		//delay(0x80);
 	}
-}	
+}
