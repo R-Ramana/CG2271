@@ -16,4 +16,9 @@ uint32_t getMaskTimer(TPM_Type *timer);
 void initPWMAll(PORT_Type *port, uint8_t pins[], uint8_t numPins, 
     TPM_Type *timer, uint8_t channels[], uint8_t numChannels);
 
+/* Delay Function */
+void delay(volatile uint32_t nof);
+
+void delay2(volatile uint32_t nof);
+
 #endif

@@ -70,3 +70,17 @@ void initPWMAll(PORT_Type *port, uint8_t pins[], uint8_t numPins,
   for (uint8_t i = 0; i < numChannels; ++i)
     initPWMChannel(timer, channels[i]);
 }
+    
+/* Delay Function */
+void delay(volatile uint32_t nof) {
+  while(nof!=0) {
+    __asm("NOP");
+    nof--;
+  }
+}
+
+void delay2(volatile uint32_t nof) {
+  for(int i = 0; i < 100; i++) {
+    delay(nof);
+  }
+}  
