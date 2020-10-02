@@ -1,8 +1,4 @@
-#include "MKL25Z4.h"                    // Device header
 #include "GPIO.h"
-
-
-
 
 void initGPIOPort(PORT_Type *port, uint8_t pin) {
   // Configure MUX settings to make all 3 pins GPIO
@@ -55,3 +51,4 @@ void setPin(PORT_Type *port, uint8_t pin, value_t value) {
   else
     gpio->PCOR |= MASK(pin);
 }
+
