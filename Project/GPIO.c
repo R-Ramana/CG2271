@@ -2,6 +2,8 @@
 #include "GPIO.h"
 
 
+
+
 void initGPIOPort(PORT_Type *port, uint8_t pin) {
   // Configure MUX settings to make all 3 pins GPIO
   // MUX_MASK = 011100000000, first step is to clear MUX
@@ -29,8 +31,8 @@ void InitGPIOAll(PORT_Type *port, uint8_t pins[], uint8_t numPins)
   // Used when setting DDR I/O
   uint32_t mask = 0;
   
-  // Enable Clock to PORTB and PORTD
-  // Controls the clock gate to the PORTB and D modules
+  // Enable Clock to port
+  // Controls the clock gate to the PORT modules
   SIM->SCGC5 |= getMaskPort(port);
   
   // Set all pins of port MUX to GPIO
@@ -44,4 +46,12 @@ void InitGPIOAll(PORT_Type *port, uint8_t pins[], uint8_t numPins)
   // Configures pins as Input and Output
   getGPIO(port)->PDDR |= mask;
   
+}
+
+void setPin(PORT_Type *port, uint8_t pin, value_t value) {
+  GPIO_Type *gpio = getGPIO(port);
+  if (value == HIGH)
+    gpio->PSOR |= MASK(pin);
+  else
+    gpio->PCOR |= MASK(pin);
 }

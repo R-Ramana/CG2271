@@ -10,6 +10,7 @@
 #define RED_LED 18      // PortB Pin 18
 #define GREEN_LED 19    // PortB Pin 19
 #define BLUE_LED 1      // PortD Pin 1
+#define PTE20 20
 
 typedef enum {LED_OFF, LED_ON} led_t;
 typedef enum {RED, GREEN, BLUE} color_t;
@@ -27,9 +28,11 @@ void InitGPIO(void)
 {
   uint8_t pinsB[] = {RED_LED, GREEN_LED}, numPinsB = 2;
   uint8_t pinsD[] = {BLUE_LED}, numPinsD = 1;
+  uint8_t pin[] = {20};
   
   InitGPIOAll(PORTB, pinsB, numPinsB);
   InitGPIOAll(PORTD, pinsD, numPinsD);
+  InitGPIOAll(PORTE,pin , 1);
 }
 
 void offRGB() {
@@ -70,8 +73,10 @@ void led_red_thread (void *argument) {
  
   // ...
   for (;;) {
+    setPin(PORTE, PTE20, HIGH);
     led_control(RED, LED_ON);
     osDelay(1000);
+    setPin(PORTE, PTE20, LOW);
     led_control(RED, LED_OFF);
     osDelay(1000);    
   }
@@ -84,6 +89,7 @@ void led_green_thread (void *argument) {
  
   // ...
   for (;;) {
+    
     led_control(GREEN, LED_ON);
     osDelay(1000);
     led_control(GREEN, LED_OFF);
@@ -98,6 +104,8 @@ int main (void) {
   // ...
   InitGPIO();
   offRGB();
+  setPin(PORTE, 20, LOW);
+  
   
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
