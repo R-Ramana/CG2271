@@ -1,10 +1,6 @@
-#ifndef SOUND_H
-#define SOUND_H
+#ifndef NOTES_H
+#define NOTES_H
 
-#include "MKL25Z4.h"                    // Device header
-#include "PWM.h"
-
-#define FREQ_2_MOD(x) (375000 / x)
 #define N_B0  31
 #define N_C1  33
 #define N_CS1 35
@@ -94,18 +90,5 @@
 #define N_CS8 4435
 #define N_D8  4699
 #define N_DS8 4978
-
-#define TEMPO 32
-
-
-
-void setPWMFreq(TPM_Type *timer, uint8_t channel, uint16_t freq);
-
-
-void playTone(TPM_Type *timer, uint8_t channel, uint16_t tone, uint8_t duration);
-
-void playNote(TPM_Type *timer, uint8_t channel, char note, uint8_t duration);
-
-void playSong(TPM_Type *timer, uint8_t channel);
 
 #endif

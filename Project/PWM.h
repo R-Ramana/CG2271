@@ -3,6 +3,8 @@
 
 #include "MKL25Z4.h"                    // Device header
 
+#define FREQ_2_MOD(x) (375000 / x)
+
 void initPWMPort(PORT_Type *port, uint8_t pin);
 
 void initPWMModule(TPM_Type *timer, uint32_t mod);
@@ -15,10 +17,5 @@ uint32_t getMaskTimer(TPM_Type *timer);
 
 void initPWMAll(PORT_Type *port, uint8_t pins[], uint8_t numPins, 
     TPM_Type *timer, uint8_t channels[], uint8_t numChannels);
-
-/* Delay Function */
-void delay(volatile uint32_t nof);
-
-void delay2(volatile uint32_t nof);
 
 #endif
