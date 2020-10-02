@@ -24,47 +24,16 @@ static void delay(volatile uint32_t nof) {
 }
 
 
-void InitGPIO(void)
-{
+void InitGPIO() {
   uint8_t pinsB[] = {RED_LED, GREEN_LED}, numPinsB = 2;
   uint8_t pinsD[] = {BLUE_LED}, numPinsD = 1;
-  uint8_t pin[] = {20};
+  uint8_t pin[] = {PTE20};
   
   InitGPIOAll(PORTB, pinsB, numPinsB);
   InitGPIOAll(PORTD, pinsD, numPinsD);
-  InitGPIOAll(PORTE,pin , 1);
+  InitGPIOAll(PORTE, pin, 1);
 }
 
-void offRGB() {
-  // Set all (active low)
-  PTB->PSOR |= MASK(RED_LED) | MASK(GREEN_LED);
-  PTD->PSOR |= MASK(BLUE_LED);
-}
-
-void led_control(color_t color, led_t sw) {
-  // Turn on specific colour
-  // Clear bit to turn on, since active low
-  switch (color) {
-  case RED:
-    if (sw)
-      PTB->PCOR |= MASK(RED_LED);
-    else
-      PTB->PSOR |= MASK(RED_LED);
-    break;
-  case GREEN:
-    if (sw)
-      PTB->PCOR |= MASK(GREEN_LED);
-    else
-      PTB->PSOR |= MASK(GREEN_LED);
-    break;
-  case BLUE:
-    if (sw)
-      PTD->PCOR |= MASK(BLUE_LED);
-    else
-      PTD->PSOR |= MASK(BLUE_LED);
-    break;
-  }
-}
  
 /*----------------------------------------------------------------------------
  * Application led_red thread
