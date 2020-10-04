@@ -34,9 +34,6 @@ void initPWM() {
   */
 }
 
-
-
-
 int main() {
   char i = 0;
   SystemCoreClockUpdate();
