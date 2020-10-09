@@ -1,0 +1,38 @@
+A BT connectivity
+Flash Green LED to indicate connection
+Receive specific data from BT06 then start LED and play tone
+Todo:
+Create function to receive data from app
+Call Flash green LED
+Call play tune
+
+
+B Motor Control
+Move in all 4 directions
+Have function for each direction
+Control all 8 pins for each direction
+TPM/PWM initialize all 8 pins using library functions
+Todo:
+Choose which pins belong to which wheel
+Create function to configure each wheel
+Create function to configure movement using function for wheels
+Create function to receive data from app and choose direction
+
+C LED Control
+Green LEDs running mode when moving
+Green LED all lit when stationary
+RED LED flashing (1 Hz) when moving
+RED LED flashing (2 Hz) when stationary
+GPIO initialize all 11 pins using library functions
+Todo:
+Abstract GPIO initialization (Wira)
+Create function to control GPIO pins
+Create function for running mode vs all lit mode
+Create function for 1 Hz and 2 Hz
+
+D Audio Control
+Continuously play song from start to end
+Play unique tone at the end
+TPM/PWM initialize 1 pin using library functions
+Todo:
+Create function to play tune running vs tune end
