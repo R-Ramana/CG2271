@@ -11,9 +11,9 @@
 typedef enum {RED, GREEN, BLUE} color_t;
 typedef enum {LED_OFF, LED_ON} led_t;
 
-void InitLEDGPIO();
+void InitLEDGPIO(void);
 
-void offRGB();
+void offRGB(void);
 
 void ledControl(color_t color, led_t sw);
 
