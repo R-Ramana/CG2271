@@ -47,8 +47,8 @@ int main (void) {
  
   // System Initialization
   SystemCoreClockUpdate();
-	initUART2(BAUD_RATE);
-	InitGPIO();
+  initUART2(BAUD_RATE);
+  InitGPIO();
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
   osThreadNew(app_main, NULL, NULL);    // Create application main thread

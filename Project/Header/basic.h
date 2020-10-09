@@ -2,6 +2,7 @@
 #define BASIC_H
 
 #include "MKL25Z4.h"                    // Device header
+#include "cmsis_os2.h"
 
 #define MASK(x) (1 << (x))
 

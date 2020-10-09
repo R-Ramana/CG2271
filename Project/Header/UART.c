@@ -1,10 +1,11 @@
 #include "MKL25Z4.h"
-#include "BTtoLED.h"
+#include "UART.h"
 /* Default Core Clk Freq is 20.97152MHz */
 // Current code will run at 48 MHz core clk freq and 24MHz Bus clk freq
 
+
 // Init UART2
-void initUART2(uint32_t baud_rate) {
+void initUART2(uint32_t baud_rate, Q_T *q) {
   uint32_t divisor, bus_clock;
 
   // Enable clocking to the two different peripheral block
@@ -39,16 +40,14 @@ void initUART2(uint32_t baud_rate) {
   UART2->C2 |= ((UART_C2_TE_MASK) | (UART_C2_RE_MASK));
 
   // Initialize Peripheral
-  /*
+  
   NVIC_SetPriority(UART2_IRQn, 128);
   NVIC_ClearPendingIRQ(UART2_IRQn);
   NVIC_EnableIRQ(UART2_IRQn);
 
   UART2->C2 |= UART_C2_TIE_MASK | UART_C2_RIE_MASK;
   UART2->C2 |= UART_C2_RIE_MASK;
-  Q_Init(&TxQ);
-  Q_Init(&RxQ);
-  */
+  Q_Init(q);  
 }	
 
 
@@ -66,4 +65,87 @@ uint8_t UART2_Receive_Poll(void) {
   // while not empty can read the data
   while(!(UART2->S1 & UART_S1_RDRF_MASK));
   return (UART2->D);
+}
+
+
+void Q_Init(Q_T * q) {
+  unsigned int i;
+  for (i=0; i<Q_SIZE; i++)
+    q->Data[i] = 0; // to simplify our lives when debugging
+  q->Head = 0;
+  q->Tail = 0;
+  q->Size = 0;
+}
+int Q_Empty(Q_T * q) {
+  return q->Size == 0;
+}
+
+int Q_Full(Q_T * q) {
+  return q->Size == Q_SIZE;
+}
+
+int Q_Enqueue(Q_T * q, unsigned char d) {
+  // What if queue is full?
+  if (Q_Full(q))
+    return 0; // failure
+  q->Data[q->Tail++] = d;
+  q->Tail %= Q_SIZE;
+  q->Size++;
+  return 1; // success
+}
+
+unsigned char Q_Dequeue(Q_T * q) {
+  // Must check to see if queue is empty before dequeueing
+  if (Q_Empty(q))
+    return 0;
+  
+  unsigned char t = 0;
+  t = q->Data[q->Head];
+  q->Data[q->Head++] = 0; // to simplify debugging
+  q->Head %= Q_SIZE;
+  q->Size--;
+  return t;
+}
+
+
+void UART2_IRQHandler(Q_T *q) {
+  NVIC_ClearPendingIRQ(UART2_IRQn);
+  
+  /*
+  // Transmitter Interrupt Handler
+  if(UART2->S1 & UART_S1_TDRE_MASK) {
+    // send a character
+    if(!Q_Empty(&TxQ)) {
+      UART2->D = Q_Dequeue(&TxQ);
+
+    } else {
+      // queue is empty so disable tx
+      UART2->C2 &= ~UART_C2_TIE_MASK ;
+    }	
+  }
+  */
+
+  
+  // Receiver Interrupt Handler
+  if(UART2->S1 & UART_S1_RDRF_MASK) {
+    // received a character
+    if (!Q_Full(q)) {
+      Q_Enqueue(q, UART2->D);
+    } else {
+      // error -queue full.
+      while (1)
+          ;
+    }
+  }
+  
+
+  // Error Cases
+  if (UART2->S1 & (UART_S1_OR_MASK 
+                  | UART_S1_NF_MASK
+                  | UART_S1_FE_MASK 
+                  | UART_S1_PF_MASK)) {
+    // handle the error
+    
+    // clear the flag
+  }
 }
