@@ -11,12 +11,32 @@
 
 #define PTE20 20
 
+volatile uint8_t var;
+
 /* GPIO Initialization */
 void InitGPIO() {
   InitLEDGPIO();
   
   uint8_t pinsE[] = {PTE20}, numPinsE = 1;
   InitGPIOAll(PORTE, pin, numPinsE);
+}
+
+/* UART2 Interrupt Handler */
+void UART2_IRQHandler() {
+  NVIC_ClearPendingIRQ(UART2_IRQn);
+  
+  if (UART2->S1 & UART_S1_RDRF_MASK)
+    var = UART2->D;
+
+  // Error Cases
+  if (UART2->S1 & (UART_S1_OR_MASK 
+                  | UART_S1_NF_MASK
+                  | UART_S1_FE_MASK 
+                  | UART_S1_PF_MASK)) {
+    // handle the error
+    
+    // clear the flag
+  }
 }
 
 /*----------------------------------------------------------------------------

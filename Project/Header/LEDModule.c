@@ -3,14 +3,32 @@
 
 uint8_t greenPins[] = {8, 9, 10, 11, 2, 3, 4, 5, 20, 21};
 
+uint8_t pinsB[] = {8, 9, 10, 11};
+uint8_t pinsE[] = {2, 3, 4, 5, 20, 21};
+uint8_t pinsC[] = {9};
+
 void initLEDModules() {
-  uint8_t pinsB[] = {8, 9, 10, 11};
-  uint8_t pinsE[] = {2, 3, 4, 5, 20, 21};
-  uint8_t pinsC[] = {9};
   
   InitGPIOAll(PORTB, pinsB, NUM_LED_B);
   InitGPIOAll(PORTE, pinsE, NUM_LED_E);
   InitGPIOAll(PORTC, pinsC, NUM_LED_C);
+}
+
+void offRedModule() {
+  setPin(PORTC, pinsC[0], LOW);
+}
+
+void offGreenModule() {
+  uint8_t i = 0;
+  for (; i < 4; ++i)
+    setPin(PORTB, greenPins[i], LOW);
+  for (; i < 10; ++i)
+    setPin(PORTE, greenPins[i], LOW);
+}
+
+void offLEDModules() {
+  offRedModule();
+  offGreenModule();
 }
 
 void onOffLED(PORT_Type *port, uint8_t pin) {

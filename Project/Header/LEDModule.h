@@ -15,6 +15,12 @@
 
 void initLEDModules(void);
 
+void offRedModule(void);
+
+void offGreenModule(void);
+
+void offLEDModules(void);
+
 void onOffLED(PORT_Type *port, uint8_t pins);
 
 void runningLED(void);
