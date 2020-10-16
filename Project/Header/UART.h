@@ -16,6 +16,8 @@
 
 #define Q_SIZE (32)
 
+extern volatile uint8_t bleNum;
+
 typedef struct {
   unsigned char Data[Q_SIZE];
   unsigned int Head;
@@ -24,24 +26,8 @@ typedef struct {
 } Q_T;
 
 // Init UART2
-void initUART2(uint32_t, Q_T *);
+void initUART2(uint32_t);
 
-// UART2 Transmit Poll
-void UART2_Transmit_Poll(uint8_t);
-
-// UART2 Receive Poll
-uint8_t UART2_Receive_Poll(void);
-
-void Q_Init(Q_T * q);
-
-int Q_Empty(Q_T * q);
-
-int Q_Full(Q_T * q);
-
-int Q_Enqueue(Q_T * q, unsigned char d);
-
-unsigned char Q_Dequeue(Q_T * q);
-
-void UART2_IRQHandler(Q_T *q);
+void UART2_IRQHandler(void);
 
 #endif
