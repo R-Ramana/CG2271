@@ -8,6 +8,76 @@ uint16_t melody[] = {
   N_D3, N_D3, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_C3, N_C3, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_B2, N_B2, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_AS2, N_AS2, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_D3, N_D3, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_C3, N_C3, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_B2, N_B2, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_AS2, N_AS2, N_D4, N_A3, 0, N_GS3, N_G3, N_F3, N_D3, N_F3, N_G3, N_D4, N_D4, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_C4, N_C4, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_B3, N_B3, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_AS3, N_AS3, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_D4, N_D4, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_C4, N_C4, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_B3, N_B3, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_AS3, N_AS3, N_D5, N_A4, 0, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, N_F4, N_F4, N_F4, N_F4, N_F4, N_D4, N_D4, N_D4, N_F4, N_F4, N_F4, N_G4, N_GS4, N_G4, N_F4, N_D4, N_F4, N_G4, 0, N_F4, N_F4, N_F4, N_G4, N_GS4, N_A4, N_C5, N_A4, N_D5, N_D5, N_D5, N_A4, N_D5, N_C5, N_F4, N_F4, N_F4, N_F4, N_F4, N_D4, N_D4, N_D4, N_F4, N_F4, N_F4, N_F4, N_D4, N_F4, N_E4, N_D4, N_C4, 0, N_G4, N_E4, N_D4, N_D4, N_D4, N_D4, N_F3, N_G3, N_AS3, N_C4, N_D4, N_F4, N_C5, 0, N_F4, N_D4, N_F4, N_G4, N_GS4, N_G4, N_F4, N_D4, N_GS4, N_G4, N_F4, N_D4, N_F4, N_F4, N_F4, N_GS4, N_A4, N_C5, N_A4, N_GS4, N_G4, N_F4, N_D4, N_E4, N_F4, N_G4, N_A4, N_C5, N_CS5, N_GS4, N_GS4, N_G4, N_F4, N_G4, N_F3, N_G3, N_A3, N_F4, N_E4, N_D4, N_E4, N_F4, N_G4, N_E4, N_A4, N_A4, N_G4, N_F4, N_DS4, N_CS4, N_DS4, 0, N_F4, N_D4, N_F4, N_G4, N_GS4, N_G4, N_F4, N_D4, N_GS4, N_G4, N_F4, N_D4, N_F4, N_F4, N_F4, N_GS4, N_A4, N_C5, N_A4, N_GS4, N_G4, N_F4, N_D4, N_E4, N_F4, N_G4, N_A4, N_C5, N_CS5, N_GS4, N_GS4, N_G4, N_F4, N_G4, N_F3, N_G3, N_A3, N_F4, N_E4, N_D4, N_E4, N_F4, N_G4, N_E4, N_A4, N_A4, N_G4, N_F4, N_DS4, N_CS4, N_DS4, 
 };
 
+uint16_t windows[] = {
+  N_GS6, N_DS6, N_GS5, N_AS5
+};
+
+uint8_t windowsNoteDuration[] = {
+  3, 3, 3, 2
+};
+
+uint16_t coffinDance[] = {
+  N_AS4, N_AS4, N_AS4, N_AS4,
+  N_AS4, N_AS4, N_AS4, N_AS4,
+  N_AS4, N_AS4, N_AS4, N_AS4,
+  N_AS4, N_AS4, N_AS4, N_AS4,
+  N_AS4, N_AS4, N_AS4, N_AS4,
+  N_D5, N_D5, N_D5, N_D5,
+  N_C5, N_C5, N_C5, N_C5, 
+  N_F5, N_F5, N_F5, N_F5, 
+  N_G5, N_G5, N_G5, N_G5,
+  N_G5, N_G5, N_G5, N_G5, 
+  N_G5, N_G5, N_G5, N_G5, 
+  N_C5, N_AS4, N_A4, N_F4,
+  N_G4, 0, N_G4, N_D5,
+  N_C5, 0, N_AS4, 0,
+  N_A4, 0, N_A4, N_A4,
+  N_C5, 0, N_AS4, N_A4, 
+  N_G4, 0, N_G4, N_AS5,
+  N_A5, N_AS5, N_A5, N_AS5,
+  N_G4, 0, N_G4, N_AS5,
+  N_A5, N_AS5, N_A5, N_AS5,
+  N_G4, 0, N_G4, N_D5,
+  N_C5, 0, N_AS4, 0,
+  N_A4, 0, N_A4, N_A4,
+  N_C5, 0, N_AS4, N_A4, 
+  N_G4, 0, N_G4, N_AS5,
+  N_A5, N_AS5, N_A5, N_AS5,
+  N_G4, 0, N_G4, N_AS5,
+  N_A5, N_AS5, N_A5, N_AS5
+ };
+
+uint8_t noteDurationsCoffin[] = {
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  4,4,4,4,
+  };
+
 uint16_t numNotes = 266;
 
 void setPWMFreq(TPM_Type *timer, uint8_t channel, uint16_t freq) {
