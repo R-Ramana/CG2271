@@ -38,6 +38,7 @@ void onOffLED(PORT_Type *port, uint8_t pin) {
 }
 
 void runningLED() {
+  offGreenModule();
   uint8_t i = 0;
   for (; i < 4; ++i)
     onOffLED(PORTB, greenPins[i]);
