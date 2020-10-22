@@ -18,7 +18,7 @@
 #define BT    5
 
 
-osMutexId_t myBTMutex, myConnMutex;
+osMutexId_t myConnMutex;
 
 char move = 0;
 char isConnected = 0;
@@ -35,21 +35,10 @@ char isMoving() {
   return move;
 }
 
-void bluetooth_connect_thread (void *argument) {
-  for (;;) {
-    
-    osMutexAcquire(myBTMutex, osWaitForever);
-    if (bleNum != BT) {
-      osMutexRelease(myBTMutex);
-      continue;
-    }
-    
-    osMutexAcquire(myConnMutex, osWaitForever);
-    flash2GreenLED();
-    bleNum = STOP;
-    playWindows();
-    osMutexRelease(myConnMutex);
-  }
+void bluetooth_connect() {
+  flash2GreenLED();
+  bleNum = STOP;
+  playWindows();
 }
 
 /*----------------------------------------------------------------------------
@@ -58,26 +47,19 @@ void bluetooth_connect_thread (void *argument) {
 void led_green_thread (void *argument) {
   // ...
   for (;;) {
-    osMutexAcquire(myConnMutex, osWaitForever);
-    osMutexRelease(myConnMutex);
     if (isMoving())
       runningLED();
     else
       allLitLED();
-     
-    
   }
 }
-
 
 /*----------------------------------------------------------------------------
  * Application led_red_thread
  *---------------------------------------------------------------------------*/
 void led_red_thread (void *argument) {
   // ...
-  for (;;) {    
-    osMutexAcquire(myConnMutex, osWaitForever);
-    osMutexRelease(myConnMutex);
+  for (;;) {
     if (isMoving())
       flashRedLED_1();
     else      
@@ -90,9 +72,7 @@ void led_red_thread (void *argument) {
  *---------------------------------------------------------------------------*/
 void sound_thread (void *argument) {
   // ...
-  for (;;) {    
-    osMutexAcquire(myConnMutex, osWaitForever);
-    osMutexRelease(myConnMutex);
+  for (;;) {
     if (isMoving())
       playMegalovania();
     else      
@@ -112,9 +92,9 @@ int main (void) {
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
-  myBTMutex = osMutexNew(NULL);
   myConnMutex = osMutexNew(NULL);
-  osThreadNew(bluetooth_connect_thread, NULL, &thread_attr);
+  while (bleNum == 0); // Wait for connection
+  bluetooth_connect();
   osThreadNew(led_green_thread, NULL, NULL);    // Create application main thread
   osThreadNew(led_red_thread, NULL, NULL);    // Create application main thread
   osThreadNew(sound_thread, NULL, NULL);
