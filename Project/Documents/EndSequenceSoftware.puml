@@ -1,0 +1,31 @@
+@startuml
+
+
+autoactivate on
+box Software
+participant ":main" as main
+participant ":UART" as UART
+participant ":basic" as basic
+participant ":brain_thread" as brain
+participant ":sound_thread" as sound
+participant ":sound" as soundh
+participant ":PWM" as PWM
+end box
+
+[-> main : 0x41
+main -> UART : NVIC_IRQHandler()
+UART -> basic : bleNum = 0x41
+UART <-- basic : osSemapahoreRelease(brainSem)
+main <-- UART
+main -> brain : osSemaphoreAcquire(brainSem)
+main <-- brain : osSemaphoreRelease(soundSem)
+main -> sound : osSemaphoreAcquire(soundSem)
+sound -> soundh : playMegalovania()
+soundh -> PWM : setPWMFreq()
+soundh <-- PWM
+sound <-- soundh
+main <-- sound
+[<-- main
+
+
+@enduml
