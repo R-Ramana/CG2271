@@ -1,0 +1,22 @@
+@startuml
+
+class main
+class LEDModule
+class GPIO
+class UART
+class sound
+class notes
+class PWM
+class basic
+
+main -u-|> LEDModule
+main -u-|> UART
+main -u-|> sound
+LEDModule -u-|> GPIO
+GPIO -u-|> basic
+UART -u-|> basic
+sound -u-> notes
+sound -u-|> PWM
+PWM -u-|> basic
+
+@enduml
