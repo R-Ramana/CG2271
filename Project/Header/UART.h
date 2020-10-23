@@ -1,7 +1,7 @@
 #ifndef UART_H
 #define UART_H
 
-#include "MKL25Z4.h"
+#include "basic.h"
 /* Default Core Clk Freq is 20.97152MHz */
 // Current code will run at 48 MHz core clk freq and 24MHz Bus clk freq
 
@@ -9,10 +9,6 @@
 #define UART_TX_PORTE22 22 // Page 162 datasheet
 #define UART_RX_PORTE23 23 // Page 162 datasheet
 #define UART2_INT_PRIO 128
-
-#define LED_RED 2 // 0b00000010
-#define LED_MASK(x) (x & 0x06)
-#define BIT0_MASK(x) (x & 0x01)
 
 #define Q_SIZE (32)
 

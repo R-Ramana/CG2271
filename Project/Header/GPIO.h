@@ -1,7 +1,6 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include "MKL25Z4.h"                    // Device header
 #include "basic.h"
 
 typedef enum {LOW, HIGH} value_t;

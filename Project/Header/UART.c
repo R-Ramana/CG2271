@@ -56,6 +56,7 @@ void initUART2(uint32_t baud_rate) {
 void UART2_IRQHandler() {
   NVIC_ClearPendingIRQ(UART2_IRQn);
   
+  osSemaphoreRelease(brainSem);
   
   // Receiver Interrupt Handler
   if(UART2->S1 & UART_S1_RDRF_MASK)

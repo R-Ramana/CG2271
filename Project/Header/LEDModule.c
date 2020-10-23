@@ -1,6 +1,5 @@
 #include "LEDModule.h"
 
-
 uint8_t greenPins[] = {8, 9, 10, 11, 2, 3, 4, 5, 20, 21};
 
 uint8_t pinsB[] = {8, 9, 10, 11};
@@ -8,7 +7,6 @@ uint8_t pinsE[] = {2, 3, 4, 5, 20, 21};
 uint8_t pinsC[] = {9};
 
 void initLEDModules() {
-  
   InitGPIOAll(PORTB, pinsB, NUM_LED_B);
   InitGPIOAll(PORTE, pinsE, NUM_LED_E);
   InitGPIOAll(PORTC, pinsC, NUM_LED_C);

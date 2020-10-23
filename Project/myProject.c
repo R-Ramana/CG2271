@@ -1,10 +1,7 @@
-/*----------------------------------------------------------------------------
+/*-------------------------------------`---------------------------------------
  * CMSIS-RTOS 'main' function template
  *---------------------------------------------------------------------------*/
- 
-#include "RTE_Components.h"
-#include  CMSIS_device_header
-#include "cmsis_os2.h"
+
 #include "LEDModule.h"
 #include "UART.h"
 #include "sound.h"
@@ -17,14 +14,16 @@
 #define AUDIO 65
 #define BT    5
 
-
-osMutexId_t myConnMutex;
-
 char move = 0;
-char isConnected = 0;
 
-const osThreadAttr_t thread_attr = {
+const osThreadAttr_t priorityAbNormal = {
   .priority = osPriorityAboveNormal
+};
+const osThreadAttr_t priorityHigh = {
+  .priority = osPriorityHigh
+};
+const osThreadAttr_t priorityMax = {
+  .priority = osPriorityRealtime
 };
 
 char isMoving() {
@@ -38,7 +37,9 @@ char isMoving() {
 void bluetooth_connect() {
   flash2GreenLED();
   bleNum = STOP;
-  playWindows();
+  playWindowsDelay2();
+  offSound();
+  delay2(0xFFF);
 }
 
 /*----------------------------------------------------------------------------
@@ -68,17 +69,54 @@ void led_red_thread (void *argument) {
 }
 
 /*----------------------------------------------------------------------------
- * Application led_red_thread
+ * Application motor_thread
+ *---------------------------------------------------------------------------*/
+void motor_thread (void *argument) {
+  // ...
+  for (;;) {
+    osSemaphoreAcquire(moveSem, osWaitForever);
+  }
+}
+
+
+/*----------------------------------------------------------------------------
+ * Application sound_thread
  *---------------------------------------------------------------------------*/
 void sound_thread (void *argument) {
   // ...
   for (;;) {
-    if (isMoving())
-      playMegalovania();
-    else      
-      playCoffin();
+    osSemaphoreAcquire(musicSem, osWaitForever);
+    playMegalovania();
+    osSemaphoreRelease(musicSem);
+    osSemaphoreAcquire(endSem, 0);
+    playCoffin();
+    osSemaphoreRelease(endSem);
   }
 }
+
+/*----------------------------------------------------------------------------
+ * Application brain_thread
+ *---------------------------------------------------------------------------*/
+void brain_thread (void *argument) {
+  // ...
+  for (;;) {
+    osSemaphoreAcquire(brainSem, osWaitForever);
+    switch (bleNum) {
+    case AUDIO:
+      osSemaphoreRelease(endSem);
+      break;
+    case UP:
+    case DOWN:
+    case LEFT:
+    case RIGHT:
+      osSemaphoreRelease(moveSem);
+      break;
+    default:
+      break;
+    }
+  }
+}
+
  
 int main (void) {
  
@@ -89,15 +127,36 @@ int main (void) {
   offLEDModules();
   initPWMSound();
   offSound();
+  //playWindowsDelay2();
+  //offSound();
   // ...
  
   osKernelInitialize();                 // Initialize CMSIS-RTOS
-  myConnMutex = osMutexNew(NULL);
-  while (bleNum == 0); // Wait for connection
+  
+  // Semaphores for threads to acquire before running
+  // max_count = 1 -> only 1 thread can acquire
+  // initial_count = 1 -> can acquire immediately
+  // initial_count = 0 -> wait for release
+  // brainSem only released by UART2_IRQ Receive Interrupt
+  // other Sem only released by brain_thread
+  endSem = osSemaphoreNew(1, 0, NULL);
+  brainSem = osSemaphoreNew(1, 0, NULL);
+  musicSem = osSemaphoreNew(1, 1, NULL);
+  moveSem = osSemaphoreNew(1, 0, NULL);
+  
+  // Wait for connection before entering multithreaded environment
+  while (bleNum != BT); 
   bluetooth_connect();
-  osThreadNew(led_green_thread, NULL, NULL);    // Create application main thread
-  osThreadNew(led_red_thread, NULL, NULL);    // Create application main thread
-  osThreadNew(sound_thread, NULL, NULL);
+  
+  // Thread inception
+  osThreadNew(brain_thread, NULL, &priorityMax); // Create brain thread
+  osThreadNew(sound_thread, NULL, &priorityHigh);
+  osThreadNew(led_green_thread, NULL, NULL);    
+  osThreadNew(led_red_thread, NULL, NULL);    
+  osThreadNew(motor_thread, NULL, &priorityAbNormal);
+  
   osKernelStart();                      // Start thread execution
+  
   for (;;) {}
+  
 }
