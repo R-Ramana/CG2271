@@ -85,12 +85,7 @@ void motor_thread (void *argument) {
 void sound_thread (void *argument) {
   // ...
   for (;;) {
-    osSemaphoreAcquire(musicSem, osWaitForever);
     playMegalovania();
-    osSemaphoreRelease(musicSem);
-    osSemaphoreAcquire(endSem, 0);
-    playCoffin();
-    osSemaphoreRelease(endSem);
   }
 }
 
@@ -103,7 +98,7 @@ void brain_thread (void *argument) {
     osSemaphoreAcquire(brainSem, osWaitForever);
     switch (bleNum) {
     case AUDIO:
-      osSemaphoreRelease(endSem);
+      playCoffin();
       break;
     case UP:
     case DOWN:
@@ -139,7 +134,6 @@ int main (void) {
   // initial_count = 0 -> wait for release
   // brainSem only released by UART2_IRQ Receive Interrupt
   // other Sem only released by brain_thread
-  endSem = osSemaphoreNew(1, 0, NULL);
   brainSem = osSemaphoreNew(1, 0, NULL);
   musicSem = osSemaphoreNew(1, 1, NULL);
   moveSem = osSemaphoreNew(1, 0, NULL);

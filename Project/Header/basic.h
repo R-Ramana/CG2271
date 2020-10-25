@@ -8,7 +8,6 @@
 
 #define MASK(x) (1 << (x))
 
-extern osSemaphoreId_t endSem;
 extern osSemaphoreId_t brainSem;
 extern osSemaphoreId_t musicSem;
 extern osSemaphoreId_t moveSem;

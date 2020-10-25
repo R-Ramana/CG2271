@@ -104,8 +104,10 @@ void playToneDelay2(TPM_Type *timer, uint8_t channel, uint32_t tone, uint8_t dur
 void playSong(TPM_Type *timer, uint8_t channel, uint32_t numNotes, 
     uint8_t noteDurations[], uint32_t melody[]) {
   for (int i = 0; i < numNotes; i++) {
+    osSemaphoreAcquire(musicSem, osWaitForever);
     uint8_t noteDuration = TEMPO / noteDurations[i];
     playTone(timer, channel, melody[i], noteDuration);
+    osSemaphoreRelease(musicSem);
     osDelay(noteDuration * 1.45);
   }
 }
@@ -136,7 +138,9 @@ void playWindows() {
 
 // Ending song
 void playCoffin() {
-  playSongDelay2(TPM1, 0, coffinNumNotes, coffinDurations, coffinMelody);
+  osSemaphoreAcquire(musicSem, osWaitForever);
+  playSong(TPM1, 0, coffinNumNotes, coffinDurations, coffinMelody);
+  osSemaphoreRelease(musicSem);
 }
 
 void offSound() {

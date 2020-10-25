@@ -1,7 +1,7 @@
 #include "MKL25Z4.h"                    // Device header
 #include "basic.h"
 
-osSemaphoreId_t endSem, brainSem, musicSem, moveSem;
+osSemaphoreId_t brainSem, musicSem, moveSem;
 
 
 uint32_t getMaskPort(PORT_Type *port) {
