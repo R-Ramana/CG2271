@@ -1,5 +1,5 @@
 A BT connectivity
-Flash Green LED to indicate connection
+Flash Green LED to indicate connection - done
 Receive specific data from BT06 then start LED and play tone
 Todo:
 Create function to receive data from app

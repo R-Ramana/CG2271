@@ -1,0 +1,30 @@
+@startuml
+
+autoactivate on
+
+actor User
+box Hardware
+participant ":MobileApp" as app
+participant ":BT06" as BT
+participant ":FRDM-KL25" as FRDM
+participant ":Buzzer" as buzzer
+end box
+
+box Software
+participant ":main" as main
+end box
+
+User -> app : "End"
+app -> BT : sends 0x41 ('A')
+BT -> FRDM : 0x41
+FRDM -> main : NVIC_IRQHandler()
+main -> FRDM
+FRDM -> buzzer : drive
+buzzer --> FRDM
+FRDM --> main
+main --> FRDM
+FRDM --> BT
+BT --> app
+app --> User
+
+@enduml

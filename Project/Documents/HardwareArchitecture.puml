@@ -1,0 +1,11 @@
+@startuml
+
+[FRDM-KL25] as FRDM
+[LEDModule] as LED
+[Motors] as Motor
+[BT06Module] as BT
+
+FRDM -d-> LED : drives >
+FRDM -d-> Motor : drives >
+FRDM -r-> BT : receives input >
+@enduml

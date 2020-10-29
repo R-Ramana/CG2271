@@ -1,0 +1,55 @@
+@startuml
+!include Style.puml
+
+package "Mobile Application" {
+  [Connect to Bluetooth]
+  [Movements (Up, Down, Left, Right)]
+  [Stop]
+  [Final Audio]
+}
+
+package "LED" {
+  [Red LED flash (250ms)] RED_COLOR
+  [Red LED flash (500ms)] RED_COLOR
+  [Yellow LED flash (twice)] YELLOW_COLOR
+  [Yellow LED (all lighted up)] YELLOW_COLOR
+  [Yellow LED (running)] YELLOW_COLOR
+}
+
+package "Audio" {
+    [Windows Shutdown Tone] GREEN_COLOR
+    [Coffin Dance Tone] GREEN_COLOR
+    [Megalovania Tone] GREEN_COLOR
+}
+
+package "Bluetooth" {
+    [Bluetooth Module] BLUE_COLOR
+}
+
+' when connecting
+[Connect to Bluetooth] <-[BLUE_COLOR]- [Bluetooth Module]
+
+' when connected
+[Bluetooth Module] <-[BLUE_COLOR]- [Yellow LED flash (twice)]
+[Bluetooth Module] <-[BLUE_COLOR]- [Windows Shutdown Tone]
+
+' when moving
+[Movements (Up, Down, Left, Right)] <-[YELLOW_COLOR]- [Bluetooth Module]
+
+' when stationary
+[Stop] <-[RED_COLOR]- [Bluetooth Module]
+
+' when completed
+[Final Audio] <-[GREEN_COLOR]- [Bluetooth Module]
+
+' blutooth connections
+[Bluetooth Module] <-[YELLOW_COLOR]- [Yellow LED (running)]
+[Bluetooth Module] <-[YELLOW_COLOR]- [Red LED flash (500ms)]
+[Bluetooth Module] <-[YELLOW_COLOR]- [Megalovania Tone]
+[Bluetooth Module] <-[RED_COLOR]- [Yellow LED (all lighted up)]
+[Bluetooth Module] <-[RED_COLOR]- [Red LED flash (250ms)]
+[Bluetooth Module] <-[RED_COLOR]- [Megalovania Tone]
+[Bluetooth Module] <-[GREEN_COLOR]- [Coffin Dance Tone]
+
+
+@enduml

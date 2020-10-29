@@ -30,20 +30,6 @@ void initPWMChannel(TPM_Type *timer, uint8_t channel) {
   TPM_CnSC_REG(timer,channel) |= (TPM_CnSC_ELSB(1) | TPM_CnSC_MSB(1));
 }
 
-uint32_t getMaskPort(PORT_Type *port) {
-  if (port == PORTA)
-    return SIM_SCGC5_PORTA_MASK;
-  else if (port == PORTB)
-    return SIM_SCGC5_PORTB_MASK;
-  else if (port == PORTC)
-    return SIM_SCGC5_PORTC_MASK;
-  else if (port == PORTD)
-    return SIM_SCGC5_PORTD_MASK;
-  else
-    return SIM_SCGC5_PORTE_MASK;
-    
-}
-
 uint32_t getMaskTimer(TPM_Type *timer) {
   if (timer == TPM0)
     return SIM_SCGC6_TPM0_MASK;

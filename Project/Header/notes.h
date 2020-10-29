@@ -1,6 +1,8 @@
 #ifndef NOTES_H
 #define NOTES_H
 
+#define REST 20000
+
 #define N_B0  31
 #define N_C1  33
 #define N_CS1 35
