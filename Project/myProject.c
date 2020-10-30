@@ -5,6 +5,7 @@
 #include "LEDModule.h"
 #include "UART.h"
 #include "sound.h"
+#include "motors.h"
 
 #define STOP  83
 #define UP    85
@@ -14,7 +15,7 @@
 #define AUDIO 65
 #define BT    5
 
-char move = 0;
+char isMove = 0;
 
 const osThreadAttr_t priorityAbNormal = {
   .priority = osPriorityAboveNormal
@@ -28,10 +29,10 @@ const osThreadAttr_t priorityMax = {
 
 char isMoving() {
   if (bleNum == STOP)
-    move = 0;
+    isMove = 0;
   else if (bleNum == UP || bleNum == DOWN || bleNum == LEFT || bleNum == RIGHT)
-    move = 1;
-  return move;
+    isMove = 1;
+  return isMove;
 }
 
 void bluetooth_connect() {
@@ -75,6 +76,23 @@ void motor_thread (void *argument) {
   // ...
   for (;;) {
     osSemaphoreAcquire(moveSem, osWaitForever);
+    switch (bleNum) {
+    case UP:
+      move(0b1100);
+      break;
+    case DOWN:
+      move(0b1000);
+      break;
+    case LEFT:
+      move(0b1111);
+      break;
+    case RIGHT:
+      move(0b1110);
+      break;
+    default:
+      break;
+    }
+    bleNum = 0;
   }
 }
 
@@ -117,11 +135,15 @@ int main (void) {
  
   // System Initialization
   SystemCoreClockUpdate();
+  
   initUART2(BAUD_RATE);
   initLEDModules();
   offLEDModules();
   initPWMSound();
+  
+  initPWMMotors();
   offSound();
+  stop();
   //playWindowsDelay2();
   //offSound();
   // ...
