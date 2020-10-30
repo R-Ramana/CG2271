@@ -1,4 +1,6 @@
 @startuml
+hide circle
+hide member
 
 class main
 class LEDModule

@@ -1,8 +1,8 @@
 @startuml
 
-!define YELLOW_COLOR #fefe69
+!define YELLOW_COLOR #fee12b
 !define RED_COLOR #fa867e
 !define GREEN_COLOR #98fb98
-!define BLUE_COLOR #bdd7ee
+!define BLUE_COLOR #87ceff
 
 @enduml

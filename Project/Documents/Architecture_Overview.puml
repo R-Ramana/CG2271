@@ -1,6 +1,8 @@
 @startuml
 !include Style.puml
 
+skinparam arrowThickness 5
+
 package "Mobile Application" {
   [Connect to Bluetooth]
   [Movements (Up, Down, Left, Right)]
