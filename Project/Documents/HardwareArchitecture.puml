@@ -1,9 +1,9 @@
 @startuml
 
 [FRDM-KL25] as FRDM
-[LEDModule] as LED
+[LED Module] as LED
 [Motors] as Motor
-[BT06Module] as BT
+[BT06 Module] as BT
 
 FRDM -d-> LED : drives >
 FRDM -d-> Motor : drives >
