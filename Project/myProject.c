@@ -12,6 +12,10 @@
 #define DOWN  68
 #define LEFT  76
 #define RIGHT 82
+#define NW    57
+#define NE    45
+#define SE    53
+#define SW    55
 #define AUDIO 65
 #define BT    5
 
@@ -89,6 +93,18 @@ void motor_thread (void *argument) {
     case RIGHT:
       move(0b1110);
       break;
+    case NW:
+      move(0b1111);
+      break;
+    case NE:
+      move(0b1110);
+      break;
+    case SE:
+      move(0b1010);
+      break;
+    case SW:
+      move(0b1011);
+      break;
     default:
       break;
     }
@@ -122,6 +138,10 @@ void brain_thread (void *argument) {
     case DOWN:
     case LEFT:
     case RIGHT:
+    case NW:
+    case NE:
+    case SE:
+    case SW:
       osSemaphoreRelease(moveSem);
       break;
     default:
