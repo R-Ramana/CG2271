@@ -121,6 +121,15 @@ void playSongDelay2(TPM_Type *timer, uint8_t channel, uint32_t numNotes,
   }
 }
 
+void playSongNoSem(TPM_Type *timer, uint8_t channel, uint32_t numNotes, 
+    uint8_t noteDurations[], uint32_t melody[]) {
+  for (int i = 0; i < numNotes; i++) {
+    uint8_t noteDuration = TEMPO / noteDurations[i];
+    playTone(timer, channel, melody[i], noteDuration);
+    osDelay(noteDuration * 1.45);
+  }
+}
+
 // Running song
 void playMegalovania() {
   playSong(TPM1, 0, megNumNotes, megDurations, megMelody);
@@ -139,7 +148,7 @@ void playWindows() {
 // Ending song
 void playCoffin() {
   osSemaphoreAcquire(musicSem, osWaitForever);
-  playSong(TPM1, 0, coffinNumNotes, coffinDurations, coffinMelody);
+  playSongNoSem(TPM1, 0, coffinNumNotes, coffinDurations, coffinMelody);
   osSemaphoreRelease(musicSem);
 }
 

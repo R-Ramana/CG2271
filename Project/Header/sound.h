@@ -20,6 +20,8 @@ void playSong(TPM_Type *, uint8_t, uint32_t, uint8_t[], uint32_t[]);
 
 void playSongDelay2(TPM_Type *, uint8_t, uint32_t, uint8_t[], uint32_t[]);
 
+void playSongNoSem(TPM_Type *, uint8_t, uint32_t, uint8_t[], uint32_t[]);
+
 void playMegalovania(void);
 
 void playWindows(void);

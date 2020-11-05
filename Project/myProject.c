@@ -34,7 +34,8 @@ const osThreadAttr_t priorityMax = {
 char isMoving() {
   if (bleNum == STOP)
     isMove = 0;
-  else if (bleNum == UP || bleNum == DOWN || bleNum == LEFT || bleNum == RIGHT)
+  else if (bleNum == UP || bleNum == DOWN || bleNum == LEFT || bleNum == RIGHT
+      || bleNum == NE || bleNum == SE || bleNum == SW || bleNum == NW)
     isMove = 1;
   return isMove;
 }
@@ -108,7 +109,7 @@ void motor_thread (void *argument) {
     default:
       break;
     }
-    bleNum = 0;
+    bleNum = STOP;
   }
 }
 
