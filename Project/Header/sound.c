@@ -93,6 +93,11 @@ void setPWMFreq(TPM_Type *timer, uint8_t channel, uint32_t freq) {
 
 void playTone(TPM_Type *timer, uint8_t channel, uint32_t tone, uint8_t duration) {
   setPWMFreq(timer, channel, tone);
+  osDelay(150);
+}
+
+void playToneNoSem(TPM_Type *timer, uint8_t channel, uint32_t tone, uint8_t duration) {
+  setPWMFreq(timer, channel, tone);
   osDelay(250);
 }
 
@@ -125,7 +130,7 @@ void playSongNoSem(TPM_Type *timer, uint8_t channel, uint32_t numNotes,
     uint8_t noteDurations[], uint32_t melody[]) {
   for (int i = 0; i < numNotes; i++) {
     uint8_t noteDuration = TEMPO / noteDurations[i];
-    playTone(timer, channel, melody[i], noteDuration);
+    playToneNoSem(timer, channel, melody[i], noteDuration);
     osDelay(noteDuration * 1.45);
   }
 }

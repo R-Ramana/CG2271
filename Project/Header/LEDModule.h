@@ -29,7 +29,11 @@ void allLitLED(void);
 
 void flashGreenLED(uint8_t);
 
+void flashGreenLEDDelay(uint8_t);
+
 void flash2GreenLED(void);
+
+
 
 void flashRedLED_1(void);
 

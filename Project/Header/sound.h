@@ -14,6 +14,8 @@ void setPWMFreq(TPM_Type *timer, uint8_t channel, uint32_t freq);
 
 void playTone(TPM_Type *timer, uint8_t channel, uint32_t tone, uint8_t duration);
 
+void playToneNoSem(TPM_Type *timer, uint8_t channel, uint32_t tone, uint8_t duration);
+
 void playToneDelay2(TPM_Type *timer, uint8_t channel, uint32_t tone, uint8_t duration);
 
 void playSong(TPM_Type *, uint8_t, uint32_t, uint8_t[], uint32_t[]);

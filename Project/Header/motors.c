@@ -34,35 +34,42 @@ void move(uint8_t rx_data) {
   // DR 1010 --> 45 deg right back   --> -2L, -1R
   // D  100x --> backward             --> -2L, -2R
   // DL 1011 --> 45 deg left back    --> -1L, -2R
+  uint16_t delayTime = 100;
   int left, right;
   switch (rx_data) {
   case 0b0011:
-  case 0b0111:
-    left = 0; right = BASE_SPEED << 1;
+  case 0b0111: // L
+    left = -(BASE_SPEED << 1); right = BASE_SPEED << 1;
+    delayTime = 500;
     break;
-  case 0b1111:
-    left = BASE_SPEED; right = BASE_SPEED << 1;
+  case 0b1111: // UL
+    left = BASE_SPEED >> 1; right = BASE_SPEED << 1;
     break;
   case 0b1100:
-  case 0b1101:
+  case 0b1101: // U
     left = BASE_SPEED << 1; right = BASE_SPEED << 1;
     break;
-  case 0b1110:
-    left = BASE_SPEED << 1; right = BASE_SPEED;
+  case 0b1110: // UR
+    left = BASE_SPEED << 1; right = BASE_SPEED >> 1;
     break;
   case 0b0010:
-  case 0b0110:
-    left = BASE_SPEED << 1; right = 0;
+  case 0b0110: // R
+    left = BASE_SPEED << 1; right = -(BASE_SPEED << 1);
+    delayTime = 500;
     break;
-  case 0b1010:
-    left = -(BASE_SPEED << 1); right = -BASE_SPEED;
+  case 0b1010: // DR
+    //left = -(BASE_SPEED << 1); right = -BASE_SPEED;
+    left = BASE_SPEED << 1; right = -(BASE_SPEED << 1);
+    delayTime = 100;
     break;
   case 0b1000:
-  case 0b1001:
+  case 0b1001: // D
     left = -(BASE_SPEED << 1); right = -(BASE_SPEED << 1);
     break;
-  case 0b1011:
-    left = -BASE_SPEED; right = -(BASE_SPEED << 1);
+  case 0b1011: // DL
+    //left = -BASE_SPEED; right = -(BASE_SPEED << 1);
+    left = -(BASE_SPEED << 1); right = BASE_SPEED << 1;
+    delayTime = 100;
     break;
   }
   
@@ -83,9 +90,11 @@ void move(uint8_t rx_data) {
     controlWheel(RBR, -right);
   }
 
-  osDelay(1000);
+  osDelay(delayTime);
   //delay(0xF);
-  stop();
+  if (rx_data == 0b1100 || rx_data == 0b1010 || rx_data == 0b1011)
+    stop();
+  //stop();
 }
 
 // Need a mapping of wheel to port

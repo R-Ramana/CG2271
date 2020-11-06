@@ -55,7 +55,25 @@ void allLitLED() {
 
 void flash2GreenLED() {
   for (uint8_t i = 0; i < 2; ++i)
-    flashGreenLED(i);
+    flashGreenLEDDelay(i);
+}
+
+void flashGreenLEDDelay(uint8_t in) {
+  uint8_t i = in;  
+  for (; i < 4; i += 2)
+    setPin(PORTB, greenPins[i], HIGH);
+  for (; i < 10; i += 2)
+    setPin(PORTE, greenPins[i], HIGH);
+  delay2(0x4FFF);
+  
+
+  i = in;
+  for (; i < 4; i += 2)
+    setPin(PORTB, greenPins[i], LOW);
+  for (; i < 10; i += 2)
+    setPin(PORTE, greenPins[i], LOW);
+  
+  delay2(0x4FFF);
 }
 
 void flashGreenLED(uint8_t in) {

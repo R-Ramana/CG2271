@@ -9,13 +9,15 @@
 
 #define STOP  83
 #define UP    85
+#define UP1_5 20
+#define UP2   25
 #define DOWN  68
-#define LEFT  76
-#define RIGHT 82
-#define NW    57
-#define NE    45
-#define SE    53
-#define SW    55
+#define LEFT  82
+#define RIGHT 76
+#define NW    45
+#define NE    57
+#define SE    55
+#define SW    53
 #define AUDIO 65
 #define BT    5
 
@@ -79,20 +81,25 @@ void led_red_thread (void *argument) {
  *---------------------------------------------------------------------------*/
 void motor_thread (void *argument) {
   // ...
+  //int t = 0;
   for (;;) {
     osSemaphoreAcquire(moveSem, osWaitForever);
     switch (bleNum) {
     case UP:
+      move(0b1101);
+      break;
+    case UP1_5:
+    case UP2:
       move(0b1100);
       break;
     case DOWN:
       move(0b1000);
       break;
     case LEFT:
-      move(0b1111);
+      move(0b0011);
       break;
     case RIGHT:
-      move(0b1110);
+      move(0b0010);
       break;
     case NW:
       move(0b1111);
@@ -107,9 +114,11 @@ void motor_thread (void *argument) {
       move(0b1011);
       break;
     default:
-      break;
+      stop();
+      bleNum = STOP;
     }
-    bleNum = STOP;
+    //bleNum = STOP;
+    //osDelay(1000);
   }
 }
 
@@ -136,6 +145,7 @@ void brain_thread (void *argument) {
       playCoffin();
       break;
     case UP:
+    case UP1_5:
     case DOWN:
     case LEFT:
     case RIGHT:
@@ -143,6 +153,7 @@ void brain_thread (void *argument) {
     case NE:
     case SE:
     case SW:
+    case STOP:
       osSemaphoreRelease(moveSem);
       break;
     default:
@@ -182,6 +193,7 @@ int main (void) {
   moveSem = osSemaphoreNew(1, 0, NULL);
   
   // Wait for connection before entering multithreaded environment
+  
   while (bleNum != BT); 
   bluetooth_connect();
   
@@ -190,6 +202,7 @@ int main (void) {
   osThreadNew(sound_thread, NULL, &priorityHigh);
   osThreadNew(led_green_thread, NULL, NULL);    
   osThreadNew(led_red_thread, NULL, NULL);    
+  
   osThreadNew(motor_thread, NULL, &priorityAbNormal);
   
   osKernelStart();                      // Start thread execution
