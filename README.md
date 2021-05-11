@@ -6,6 +6,8 @@ This repository contains all the code used for this iteration of CG2271. Lab and
 
 [The project specifications can be found here.](https://github.com/R-Ramana/CG2271/blob/master/Project/Documents/Project%20Specifications_AY2021SEM1.pdf)
 
+[The project report can be found here.](https://github.com/R-Ramana/CG2271/blob/master/Project/Report.pdf)
+
 Click the image below for a short video on our project!
 
 [![Project Video](https://img.youtube.com/vi/o-zYY2m2vNM/0.jpg)](https://www.youtube.com/watch?v=o-zYY2m2vNM)
